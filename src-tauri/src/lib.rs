@@ -41,12 +41,12 @@ async fn analyze_pdf(app: tauri::AppHandle, state: tauri::State<'_, AppState>, p
                 }
                 CommandEvent::Stderr(line) => {
                     let line_str = String::from_utf8_lossy(&line);
-                    let error_json = serde_json::json!({
-                        "status": "error",
-                        "type": "error",
+                    let log_json = serde_json::json!({
+                        "status": "info",
+                        "type": "debug",
                         "message": line_str.trim()
                     }).to_string();
-                    if let Err(e) = app_handle.emit("analysis-event", error_json) {
+                    if let Err(e) = app_handle.emit("analysis-event", log_json) {
                         eprintln!("Failed to emit stderr: {}", e);
                     }
                 }

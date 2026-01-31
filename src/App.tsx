@@ -20,10 +20,12 @@ import UploadView from "./components/views/UploadView";
 import CreateTestView from "./components/views/CreateTestView";
 import StudentsView from "./components/views/StudentsView";
 import ArchiveView from "./components/views/ArchiveView";
+import SettingsView from "./components/views/SettingsView";
+
 
 function App() {
   // Navigation State
-  const [activeView, setActiveView] = useState<'upload' | 'analyze' | 'library' | 'templates' | 'create-test' | 'students' | 'archive'>('upload');
+  const [activeView, setActiveView] = useState<'upload' | 'analyze' | 'library' | 'templates' | 'create-test' | 'students' | 'archive' | 'settings'>('upload');
 
   // Data States
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -398,6 +400,10 @@ function App() {
 
             {activeView === 'archive' && (
               <ArchiveView />
+            )}
+
+            {activeView === 'settings' && (
+              <SettingsView />
             )}
 
             {activeView === 'create-test' && (

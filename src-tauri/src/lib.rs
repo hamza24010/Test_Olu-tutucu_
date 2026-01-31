@@ -14,11 +14,17 @@ struct AppState {
 
 // Sidecar komutu (AI Analiz)
 #[tauri::command]
-async fn analyze_pdf(app: tauri::AppHandle, path: String) -> Result<(), String> {
+async fn analyze_pdf(app: tauri::AppHandle, state: tauri::State<'_, AppState>, path: String) -> Result<(), String> {
+    let api_key = {
+        let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+        db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default()
+    };
+
     let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
     let (mut rx, _) = sidecar_command
         .args(&[&path])
+        .env("GEMINI_API_KEY", &api_key)
         .spawn()
         .map_err(|e| e.to_string())?;
 
@@ -41,12 +47,18 @@ async fn analyze_pdf(app: tauri::AppHandle, path: String) -> Result<(), String> 
 
 // TEMPLATE: AI Analiz
 #[tauri::command]
-async fn analyze_template(app: tauri::AppHandle, path: String) -> Result<String, String> {
+async fn analyze_template(app: tauri::AppHandle, state: tauri::State<'_, AppState>, path: String) -> Result<String, String> {
+    let api_key = {
+        let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+        db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default()
+    };
+
     let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
     // Command format: engine analyze-template <path>
     let (mut rx, _) = sidecar_command
         .args(&["analyze-template", &path])
+        .env("GEMINI_API_KEY", &api_key)
         .spawn()
         .map_err(|e| e.to_string())?;
 
@@ -60,6 +72,19 @@ async fn analyze_template(app: tauri::AppHandle, path: String) -> Result<String,
     }
     Ok(output)
 }
+
+#[tauri::command]
+async fn save_setting(state: tauri::State<'_, AppState>, key: String, value: String) -> Result<(), String> {
+    let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+    db.set_setting(&key, &value).map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+async fn get_setting(state: tauri::State<'_, AppState>, key: String) -> Result<Option<String>, String> {
+    let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+    db.get_setting(&key).map_err(|e| e.to_string())
+}
+
 
 
 // Save Question Command
@@ -109,6 +134,11 @@ async fn export_test_pdf(
 ) -> Result<String, String> {
     let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
+    let api_key = {
+        let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+        db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default()
+    };
+    
     // Construct args: ["export", output_path, "--images", img1, img2, ...]
     let mut args = vec!["export".to_string(), output_path];
     args.push("--images".to_string());
@@ -129,6 +159,7 @@ async fn export_test_pdf(
 
     let (mut rx, _) = sidecar_command
         .args(&args_str)
+        .env("GEMINI_API_KEY", &api_key)
         .spawn()
         .map_err(|e| e.to_string())?;
 
@@ -271,6 +302,7 @@ async fn generate_answer_key(app: tauri::AppHandle, state: tauri::State<'_, AppS
             "--questions", 
             &json_str
         ])
+        .env("GEMINI_API_KEY", &api_key)
         .output()
         .await
         .map_err(|e| format!("Python (Sidecar) hatası: {}", e))?;
@@ -391,6 +423,8 @@ pub fn run() {
             list_tests,
             get_test_questions,
             generate_answer_key,
+            get_setting,
+            save_setting,
             // Generator
             get_topics,
             generate_test

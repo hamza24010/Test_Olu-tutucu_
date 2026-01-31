@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 interface SidebarProps {
     activeView: string;
-    onViewChange: (view: 'upload' | 'library' | 'templates' | 'create-test' | 'students' | 'archive') => void;
+    onViewChange: (view: 'upload' | 'library' | 'templates' | 'create-test' | 'students' | 'archive' | 'settings') => void;
 }
 
 export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
@@ -59,7 +59,12 @@ export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
             </nav>
 
             <div className="p-4 border-t border-slate-100 dark:border-slate-800 space-y-1">
-                <NavItem icon={<Settings size={20} />} label="Ayarlar" />
+                <NavItem
+                    icon={<Settings size={20} />}
+                    label="Ayarlar"
+                    active={activeView === 'settings'}
+                    onClick={() => onViewChange('settings')}
+                />
             </div>
         </aside>
     );

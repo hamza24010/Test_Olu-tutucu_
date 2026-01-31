@@ -109,12 +109,39 @@ impl Database {
             [],
         )?;
         
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )",
+            [],
+        )?;
+        
         // MIGRATIONS
         let _ = self.conn.execute("ALTER TABLE questions ADD COLUMN difficulty INTEGER", []);
         let _ = self.conn.execute("ALTER TABLE questions ADD COLUMN topic TEXT", []);
         let _ = self.conn.execute("ALTER TABLE tests ADD COLUMN answer_key TEXT", []); // New Migration
         
         Ok(())
+    }
+
+    // --- SETTINGS ---
+    pub fn set_setting(&self, key: &str, value: &str) -> Result<()> {
+        self.conn.execute(
+            "INSERT OR REPLACE INTO settings (key, value) VALUES (?1, ?2)",
+            params![key, value],
+        )?;
+        Ok(())
+    }
+
+    pub fn get_setting(&self, key: &str) -> Result<Option<String>> {
+        let mut stmt = self.conn.prepare("SELECT value FROM settings WHERE key = ?1")?;
+        let mut rows = stmt.query(params![key])?;
+        if let Some(row) = rows.next()? {
+            Ok(Some(row.get(0)?))
+        } else {
+            Ok(None)
+        }
     }
 
     // --- ARCHIVE / TESTS ---

@@ -114,7 +114,7 @@ def run_analysis(pdf_path):
             NOT: bbox koordinatları 0 ile 1000 arasında normalize edilmiş olmalıdır.
             """
             
-            sample_file = genai.upload_file(path=temp_img_path, display_name=f"Page {page_num}")
+            sample_file = genai.upload_file(path=temp_path, display_name=f"Page {page_num}")
             response = model.generate_content([prompt, sample_file])
             
             # Parse JSON

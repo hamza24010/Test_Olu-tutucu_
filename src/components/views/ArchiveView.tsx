@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { motion } from "framer-motion";
-import { Archive, User, Calendar, FileText, ChevronRight, Key, X, CheckCircle } from "lucide-react";
+import { Archive, User, FileText, Key, X } from "lucide-react";
 import { Question } from "../../types";
 import QuestionCard from "../QuestionCard";
 

@@ -1,6 +1,6 @@
 import { Question } from "../types";
 import { getDifficultyColor, getDifficultyLabel } from "../utils/helpers";
-import { Save, Trash2 } from "lucide-react";
+import { Save } from "lucide-react";
 import { convertFileSrc } from "@tauri-apps/api/core";
 import clsx from "clsx";
 

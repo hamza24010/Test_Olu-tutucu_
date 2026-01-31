@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}PDF Yükle - TestGen Pro{% endblock %}
+
+{% block content %}
+<header
+    class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 flex items-center justify-between sticky top-0 z-10">
+    <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-slate-400">upload_file</span>
+        <h2 class="text-lg font-semibold">PDF Yükleme Merkezi</h2>
+    </div>
+</header>
+<div class="p-8 max-w-4xl mx-auto w-full">
+    <div class="mb-8">
+        <h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Materyal Yükle</h2>
+        <p class="text-slate-500 dark:text-slate-400 mt-1">Soru bankası oluşturmak için PDF dosyalarınızı yükleyin.</p>
+    </div>
+
+    <!-- Upload Area -->
+    <div onclick="document.getElementById('pdf-input').click()"
+        class="bg-white dark:bg-background-dark rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 p-12 transition-all hover:border-primary/50 group cursor-pointer relative">
+        <input type="file" id="pdf-input" accept="application/pdf" class="hidden" onchange="handleFileSelect(this)">
+        <div class="flex flex-col items-center text-center" id="upload-content">
+            <div
+                class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-3xl">cloud_upload</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">PDF dosyanızı buraya sürükleyin</h3>
+            <p class="text-slate-500 dark:text-slate-400 max-w-sm mb-6">
+                Soru çıkarmak için ders materyallerinizi veya kitaplarınızı yükleyin. (Yalnızca PDF)
+            </p>
+            <div class="flex gap-3">
+                <button
+                    class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors shadow-lg shadow-primary/20">
+                    Dosya Seç
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading State (Hidden by default) -->
+        <div id="loading-state" class="hidden flex flex-col items-center text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
+            <h3 class="text-lg font-bold">Yükleniyor ve İşleniyor...</h3>
+            <p class="text-slate-500 text-sm">Yapay zeka soruları çıkarırken lütfen bekleyin.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/api.js"></script>
+<script>
+    async function handleFileSelect(input) {
+        const file = input.files[0];
+        if (!file) return;
+
+        // Show loading
+        document.getElementById('upload-content').classList.add('hidden');
+        document.getElementById('loading-state').classList.remove('hidden');
+
+        try {
+            await uploadPDF(file);
+            alert("PDF başarıyla yüklendi ve sorular oluşturuldu! Soru Bankası'na yönlendiriliyorsunuz.");
+            navigateTo('question_bank.html');
+        } catch (e) {
+            alert("Hata: " + e.message);
+            // Reset UI
+            document.getElementById('upload-content').classList.remove('hidden');
+            document.getElementById('loading-state').classList.add('hidden');
+        }
+    }
+</script>
+{% endblock %}

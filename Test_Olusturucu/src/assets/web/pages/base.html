@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html class="light" lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}TestGen Pro{% endblock %}</title>
+
+    <!-- Preconnect to fonts to reduce layout shift -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Base Reset & Layout Stability */
+        body {
+            font-family: 'Lexend', sans-serif;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+            overflow-y: scroll;
+            /* Force scrollbar to prevent horizontal jump */
+        }
+
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* Consistent Icon Rendering */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            /* Fixed width to prevent shift */
+            height: 24px;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling Standardized */
+        .sidebar {
+            width: 16rem;
+            /* 64 * 0.25rem = 16rem */
+            min-width: 16rem;
+            max-width: 16rem;
+            transition: none;
+            /* No transition on width to prevent shift */
+        }
+
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-item:hover:not(.active) {
+            transform: translateX(6px);
+        }
+
+        .sidebar-item.active {
+            background-color: rgba(19, 91, 236, 0.1);
+            color: #135bec;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
+    <!-- PERSISTENT SIDEBAR -->
+    <aside
+        class="sidebar border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col h-screen sticky top-0 shrink-0 z-50">
+        <div class="p-6 flex flex-col h-full">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-primary rounded-lg p-2 text-white flex items-center justify-center w-10 h-10">
+                    <span class="material-symbols-outlined block">auto_stories</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold leading-none">TestGen</h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Admin Paneli</p>
+                </div>
+            </div>
+
+            <nav class="flex-1 flex flex-col gap-1">
+                <a onclick="navigateTo('pdf_upload.html')"
+                    class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer {% if active_page == 'pdf_upload' %}active{% endif %}">
+                    <span class="material-symbols-outlined">upload_file</span>
+                    <span class="text-sm font-medium">PDF Yükle</span>
+                </a>
+                <a onclick="navigateTo('question_bank.html')"
+                    class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer {% if active_page == 'question_bank' %}active{% endif %}">
+                    <span class="material-symbols-outlined">database</span>
+                    <span class="text-sm font-medium">Soru Bankası</span>
+                </a>
+                <a onclick="navigateTo('test_generator.html')"
+                    class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer {% if active_page == 'test_generator' %}active{% endif %}">
+                    <span class="material-symbols-outlined">edit_square</span>
+                    <span class="text-sm font-medium">Test Oluştur</span>
+                </a>
+                <a onclick="navigateTo('archive.html')"
+                    class="sidebar-item flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer {% if active_page == 'archive' %}active{% endif %}">
+                    <span class="material-symbols-outlined">archive</span>
+                    <span class="text-sm font-medium">Arşiv</span>
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1">
+                <div class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-10 h-10 ring-2 ring-primary/20"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGwv16xWv4ataFD0iM5xpqGYpUv5rEjSMlaP7NZNl_93GmvJt5X-BDU-1HhzXWODJxYv5HtFyXyg7w4qiwUOfqliU7HhJ8Hd_OIW8Kn0iZ96c-yM-D0s0yYgUlNn3ujLizx5kmNq6BMVloSPUSSUeAKW4c23RHLITnhGC2fXsjq-OA68Ag_hwAmB0nHTlgj2X8DZ-tF6BnxR10OiJb0nedYZcwMnFdOCTe5t6OZMvSbiO2lSInAyAn_OoPB_06FrS4lsx-DNYRQt4");'>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-bold text-slate-900 dark:text-white truncate">Mehmet Yılmaz</p>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Öğretmen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="flex-1 flex flex-col min-w-0">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        function navigateTo(page) {
+            window.location.href = "/" + page;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Apply slight delay to ensure fonts are ready if possible
+            setTimeout(() => {
+                document.body.classList.add('loaded');
+            }, 50);
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

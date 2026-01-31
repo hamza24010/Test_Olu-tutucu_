@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Question Bank Management | TestGen Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex min-h-screen">
+<aside class="fixed inset-y-0 left-0 w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col z-50">
+<div class="p-6 flex items-center gap-3 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined">menu_book</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">TestGen Admin</h2>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="font-medium">PDF Yükle</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">collections_bookmark</span>
+<span class="font-bold">Soru Bankası</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">quiz</span>
+<span class="font-medium">Test Oluştur</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span class="font-medium">Arşiv</span>
+</a>
+</nav>
+<div class="p-4 mt-auto border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 ring-2 ring-primary/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCGwv16xWv4ataFD0iM5xpqGYpUv5rEjSMlaP7NZNl_93GmvJt5X-BDU-1HhzXWODJxYv5HtFyXyg7w4qiwUOfqliU7HhJ8Hd_OIW8Kn0iZ96c-yM-D0s0yYgUlNn3ujLizx5kmNq6BMVloSPUSSUeAKW4c23RHLITnhGC2fXsjq-OA68Ag_hwAmB0nHTlgj2X8DZ-tF6BnxR10OiJb0nedYZcwMnFdOCTe5t6OZMvSbiO2lSInAyAn_OoPB_06FrS4lsx-DNYRQt4");'></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-slate-900 dark:text-white truncate">Mehmet Yılmaz</p>
+<p class="text-[11px] text-slate-500 dark:text-slate-400 truncate">Öğretmen</p>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex-1 ml-64 flex flex-col min-h-screen">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-10 py-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+<div class="flex items-center gap-8">
+<label class="flex flex-col min-w-40 !h-10 max-w-64">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+<div class="text-slate-500 dark:text-slate-400 flex border-none bg-slate-100 dark:bg-slate-800 items-center justify-center pl-4 rounded-l-lg border-r-0">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-slate-100 dark:bg-slate-800 focus:border-none h-full placeholder:text-slate-500 px-4 rounded-l-none border-l-0 pl-2 text-base font-normal leading-normal" placeholder="Soru ara..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<div class="flex items-center gap-6">
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1 px-4 md:px-10">
+<div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+<div class="flex min-w-72 flex-col gap-2">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Soru Bankası</p>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-normal">PDF'lerinizden çıkarılan 1.248 soruyu yönetin ve filtreleyin.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined mr-2">upload_file</span>
+<span class="truncate">PDF Yükle</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-11 px-5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 text-sm font-bold leading-normal tracking-[0.015em] border border-rose-100 dark:border-rose-900/30 hover:bg-rose-100 transition-all">
+<span class="material-symbols-outlined mr-2">delete_sweep</span>
+<span class="truncate">Tümünü Sil</span>
+</button>
+</div>
+</div>
+<div class="flex gap-3 mb-6 flex-wrap pr-4 bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-5 cursor-pointer shadow-sm">
+<p class="text-sm font-semibold leading-normal">Tüm Sorular</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Matematik</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Fizik</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Türkçe</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Kimya</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Biyoloji</p>
+</div>
+<div class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700">
+<p class="text-sm font-medium leading-normal">Geometri</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative w-full bg-slate-100 dark:bg-slate-800 aspect-[16/10] flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-contain p-4 transition-transform group-hover:scale-105" data-alt="Geometry triangle problem diagram" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAIcm9kM6Q7ydJF7scO57WfW9F5mFrkGrAOJH_q-wF9o0kluQlE1plONlzEmpCuws9I2DJ0Y-DIY0QXkI9LPkT_FfdSEOECcodO_nQ6MV_kcxQwi_karxK99pMrtLkgviHExY_q1ONrJNUjdTNQTwJ9idviVQOz0DQJ0c5NqCq-iE4JbVkrjnWq-RbaGxhSKaan9fNoXZcssuY-CtTHo1eZ3BM3skLMcVE2R_yL3XB1eHCFS0uM2A2aO5q52JG5a4A8WrH4nkhq4SE");'></div>
+<div class="absolute top-3 left-3">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Matematik</span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-slate-900 dark:text-white text-base font-bold leading-tight">Soru #102 - Türev</h3>
+<span class="text-[11px] text-slate-400 font-medium">2sa önce</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal leading-relaxed mb-4 flex-1">
+                                    sin(x) fonksiyonunun x = π/2 noktasındaki türevi nedir?
+                                </p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400">Zor</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">PDF: Final_2023</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-rose-500 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative w-full bg-slate-100 dark:bg-slate-800 aspect-[16/10] flex items-center justify-center overflow-hidden">
+<div class="flex flex-col items-center justify-center p-8 text-center text-slate-400 dark:text-slate-500">
+<span class="material-symbols-outlined text-4xl mb-2">text_fields</span>
+<p class="text-xs">Bu soru için görsel bulunamadı</p>
+</div>
+<div class="absolute top-3 left-3">
+<span class="bg-indigo-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Türkçe</span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-slate-900 dark:text-white text-base font-bold leading-tight">Soru #103 - Dil Bilgisi</h3>
+<span class="text-[11px] text-slate-400 font-medium">5sa önce</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal leading-relaxed mb-4 flex-1">
+                                    Aşağıdaki cümledeki zamiri bulunuz: "Onlar yarın sabah erkenden yola çıkacaklarını söylediler."
+                                </p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">Kolay</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">PDF: Unite_1_Dilbilgisi</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-rose-500 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="group flex flex-col bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl hover:shadow-primary/5 transition-all">
+<div class="relative w-full bg-slate-100 dark:bg-slate-800 aspect-[16/10] flex items-center justify-center overflow-hidden">
+<div class="w-full h-full bg-center bg-no-repeat bg-contain p-4 transition-transform group-hover:scale-105" data-alt="Physics force diagram" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDLAqJ9u-7I-vXazL8pzNpV0Lt4sb4WF6l3-S_LVHTPHD-y6yf_9186-a8ofDhxaeAnXJxsRekuAqM5QsOieM5Rgfutx5S78_ef1joSYixF_c1J__4c6q9t-Bi2VH2JvkGmPTjE107ouavXk7ET67cKKI0v8ocpYb1nh5TWd_oLRSsu7h82IQfp14lR5nZ3zvbyS8x19Gt4fdefCjbiFWQqzh6OmCKEg6MBm88dRtdItavJfQK1J6yErxKct0ex14dtJT3yxXDGess");'></div>
+<div class="absolute top-3 left-3">
+<span class="bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Fizik</span>
+</div>
+<div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<input class="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</div>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-slate-900 dark:text-white text-base font-bold leading-tight">Soru #104 - Mekanik</h3>
+<span class="text-[11px] text-slate-400 font-medium">1g önce</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-normal leading-relaxed mb-4 flex-1">
+                                    30 derecelik eğik düzlemde duran 5 kg kütleli blok üzerindeki net kuvveti hesaplayınız.
+                                </p>
+<div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">Orta</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-400">PDF: Dinamik_Odev</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-rose-500 transition-colors rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed bottom-10 left-[calc(50%+128px)] -translate-x-1/2 bg-white dark:bg-slate-900 shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-700 px-8 py-3 flex items-center gap-8 z-[100] ring-1 ring-slate-950/5">
+<div class="flex items-center gap-3 pr-8 border-r border-slate-200 dark:border-slate-800">
+<span class="flex h-6 w-6 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white">3</span>
+<span class="text-sm font-semibold text-slate-900 dark:text-white">Soru Seçildi</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-center gap-1 cursor-pointer group">
+<div class="rounded-full bg-slate-100 dark:bg-slate-800 p-2 group-hover:bg-primary/10 group-hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-[11px] font-medium group-hover:text-primary">Teste Ekle</p>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer group">
+<div class="rounded-full bg-slate-100 dark:bg-slate-800 p-2 group-hover:bg-primary/10 group-hover:text-primary transition-all">
+<span class="material-symbols-outlined text-[20px]">content_copy</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-[11px] font-medium group-hover:text-primary">Kopyala</p>
+</div>
+<div class="flex flex-col items-center gap-1 cursor-pointer group">
+<div class="rounded-full bg-rose-50 dark:bg-rose-900/20 p-2 group-hover:bg-rose-100 group-hover:text-rose-600 transition-all">
+<span class="material-symbols-outlined text-[20px] text-rose-500">delete</span>
+</div>
+<p class="text-rose-600 dark:text-rose-400 text-[11px] font-medium">Seçilenleri Sil</p>
+</div>
+</div>
+<button class="ml-4 text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">İptal</button>
+</div>
+</div>
+</main>
+<footer class="border-t border-slate-200 dark:border-slate-800 py-6 mt-12 bg-white dark:bg-slate-900">
+<div class="max-w-[1200px] mx-auto px-10 flex justify-between items-center">
+<p class="text-slate-500 text-sm">© 2024 TestGen Educational Systems</p>
+<div class="flex gap-6 text-slate-500 text-sm">
+<a class="hover:text-primary" href="#">Şartlar</a>
+<a class="hover:text-primary" href="#">Gizlilik</a>
+<a class="hover:text-primary" href="#">Destek</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+
+</body></html>

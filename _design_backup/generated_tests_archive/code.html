@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Generated Tests Archive - TestGen Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        [data-checkbox-tick-svg] {
+            --checkbox-tick-svg: url('data:image/svg+xml,%3csvg viewBox=%270 0 16 16%27 fill=%27rgb(255,255,255)%27 xmlns=%27http://www.w3.org/2000/svg%27%3e%3cpath d=%27M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z%27/%3e%3c/svg%3e');
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex w-full min-h-screen">
+<aside class="fixed left-0 top-0 h-screen w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 z-50 overflow-y-auto">
+<div class="p-6 flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+<span class="material-symbols-outlined">quiz</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">TestGen Pro</h2>
+</div>
+<nav class="mt-4 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">upload_file</span>
+<span class="text-sm font-medium">PDF Yükle</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">database</span>
+<span class="text-sm font-medium">Soru Bankası</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:text-primary">note_add</span>
+<span class="text-sm font-medium">Test Oluştur</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">inventory_2</span>
+<span class="text-sm font-semibold">Arşiv</span>
+</a>
+</nav>
+<div class="absolute bottom-0 left-0 w-full p-4 border-t border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center border border-white dark:border-slate-800 shadow-sm" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAp84ecgC0qIKg-zkoS79loU5Oq5fK9cmLe8kKg8u0ibBfONJs8oBgLE0vIm_EKjfamm5VPIbk0zQX3k95TMb5U1YUH2BAohGiPo0uzEXi6VquGaYdzwPjlkCiH40gD9DohgoN8J1gv1pPZhvigqZTyAs9_o-uH7rtZVu4B14udN3y3J1GCKZyb9-mQAs0kpH-5X4-EY843jE1HWB6hh7Lhl2TOsOCAwPrch5jpKrscBPY3pRY7eiFeBH6cwbUf1ukGiG56appmmMM");'></div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-slate-900 dark:text-white truncate">Ayşe Yılmaz</span>
+<span class="text-[10px] text-slate-500 truncate">Öğretmen Hesabı</span>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-sm ml-auto">logout</span>
+</div>
+</div>
+</aside>
+<div class="flex-1 ml-64 flex flex-col min-h-screen overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-8 py-3 sticky top-0 z-40">
+<div class="flex items-center gap-4">
+<label class="flex flex-col min-w-[300px] !h-10">
+<div class="flex w-full flex-1 items-stretch rounded-lg h-full bg-slate-100 dark:bg-slate-800">
+<div class="text-slate-500 flex items-center justify-center pl-4">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 border-none bg-transparent focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-500 text-sm font-normal px-4 pl-2" placeholder="Arşivde ara..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-primary dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-primary dark:text-slate-400 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<main class="flex-1 py-8 px-8">
+<div class="max-w-[1200px] mx-auto flex flex-col gap-6">
+<div class="flex flex-wrap items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold tracking-tight">Tests Archive</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base">Previously created exam PDFs and assigned student tests.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-4 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-sm font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">upload_file</span>
+<span class="truncate">Import PDF</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/20 hover:bg-blue-700 transition-all">
+<span class="material-symbols-outlined text-lg">add</span>
+<span class="truncate">Create New Test</span>
+</button>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex gap-3 flex-wrap">
+<button class="flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 px-4 border border-transparent hover:border-primary/30 transition-all">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Date Range</span>
+<span class="material-symbols-outlined text-slate-400 text-lg">calendar_today</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 px-4 border border-transparent hover:border-primary/30 transition-all">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Class/Subject</span>
+<span class="material-symbols-outlined text-slate-400 text-lg">school</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 px-4 border border-transparent hover:border-primary/30 transition-all">
+<span class="text-slate-700 dark:text-slate-300 text-sm font-medium">Format</span>
+<span class="material-symbols-outlined text-slate-400 text-lg">picture_as_pdf</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-2 rounded-lg bg-primary/10 text-primary px-4 border border-primary/20">
+<span class="text-sm font-semibold">Status: All</span>
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+</div>
+<div class="text-slate-400 text-sm font-medium">
+                        Showing 1-12 of 48 tests
+                    </div>
+</div>
+<div class="@container" data-checkbox-tick-svg="">
+<div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50 border-bottom border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 w-12 text-center">
+<input class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 bg-transparent text-primary focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+</th>
+<th class="px-4 py-4 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider">Test Name</th>
+<th class="px-4 py-4 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider">Date Created</th>
+<th class="px-4 py-4 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider">Assigned To</th>
+<th class="px-4 py-4 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider text-center">Questions</th>
+<th class="px-4 py-4 text-slate-700 dark:text-slate-300 text-xs font-bold uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-5 text-center">
+<input class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 bg-transparent text-primary focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+</td>
+<td class="px-4 py-5">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded bg-red-50 dark:bg-red-900/20 text-red-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-semibold text-sm">Midterm Algebra 1 - Version A</span>
+<span class="text-slate-400 text-xs">Mathematics • 4.2 MB</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-5 text-slate-500 dark:text-slate-400 text-sm">Oct 24, 2023</td>
+<td class="px-4 py-5">
+<span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-300">
+                                            Class 10-A
+                                        </span>
+</td>
+<td class="px-4 py-5 text-center text-slate-600 dark:text-slate-400 text-sm">25</td>
+<td class="px-4 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Print">
+<span class="material-symbols-outlined text-xl">print</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Download">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="More options">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-5 text-center">
+<input class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 bg-transparent text-primary focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+</td>
+<td class="px-4 py-5">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded bg-red-50 dark:bg-red-900/20 text-red-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-semibold text-sm">Biology Quiz - Genetics Intro</span>
+<span class="text-slate-400 text-xs">Science • 1.8 MB</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-5 text-slate-500 dark:text-slate-400 text-sm">Oct 22, 2023</td>
+<td class="px-4 py-5">
+<div class="flex -space-x-1 overflow-hidden">
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900 bg-blue-100 text-[10px] flex items-center justify-center font-bold text-blue-700">JD</div>
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900 bg-green-100 text-[10px] flex items-center justify-center font-bold text-green-700">AS</div>
+<div class="inline-block h-6 w-6 rounded-full ring-2 ring-white dark:ring-slate-900 bg-slate-100 text-[10px] flex items-center justify-center font-bold text-slate-700">+3</div>
+</div>
+</td>
+<td class="px-4 py-5 text-center text-slate-600 dark:text-slate-400 text-sm">10</td>
+<td class="px-4 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Print">
+<span class="material-symbols-outlined text-xl">print</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Download">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="More options">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-5 text-center">
+<input class="h-5 w-5 rounded border-slate-300 dark:border-slate-600 bg-transparent text-primary focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+</td>
+<td class="px-4 py-5">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded bg-red-50 dark:bg-red-900/20 text-red-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="text-slate-900 dark:text-white font-semibold text-sm">World History - French Revolution</span>
+<span class="text-slate-400 text-xs">History • 3.1 MB</span>
+</div>
+</div>
+</td>
+<td class="px-4 py-5 text-slate-500 dark:text-slate-400 text-sm">Oct 15, 2023</td>
+<td class="px-4 py-5">
+<span class="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-300">
+                                            Class 12-B
+                                        </span>
+</td>
+<td class="px-4 py-5 text-center text-slate-600 dark:text-slate-400 text-sm">50</td>
+<td class="px-4 py-5 text-right">
+<div class="flex justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Print">
+<span class="material-symbols-outlined text-xl">print</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="Download">
+<span class="material-symbols-outlined text-xl">download</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary transition-colors" title="More options">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
+<div class="flex items-center gap-2">
+<span class="text-sm text-slate-500">Rows per page:</span>
+<select class="form-select border-none bg-slate-100 dark:bg-slate-800 rounded-lg text-sm font-medium py-1 px-3 focus:ring-0">
+<option>10</option>
+<option selected="">12</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-1">
+<a class="flex size-9 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</a>
+<a class="text-sm font-bold flex size-9 items-center justify-center text-white rounded-lg bg-primary" href="#">1</a>
+<a class="text-sm font-medium flex size-9 items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" href="#">2</a>
+<a class="text-sm font-medium flex size-9 items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" href="#">3</a>
+<span class="text-slate-300 dark:text-slate-600 px-2">...</span>
+<a class="text-sm font-medium flex size-9 items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" href="#">8</a>
+<a class="flex size-9 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-8 left-[calc(50%+128px)] -translate-x-1/2 bg-slate-900 text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 z-50">
+<span class="text-sm font-medium">3 tests selected</span>
+<div class="h-4 w-px bg-slate-700"></div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">download</span>
+<span class="text-xs font-bold uppercase tracking-wider">Download All</span>
+</button>
+<button class="flex items-center gap-2 hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined text-lg">delete</span>
+<span class="text-xs font-bold uppercase tracking-wider">Delete</span>
+</button>
+</div>
+<button class="ml-2 hover:text-slate-400">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</div>
+</div>
+
+</body></html>

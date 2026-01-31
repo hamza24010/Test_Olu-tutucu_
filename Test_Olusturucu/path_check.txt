@@ -1,0 +1,5 @@
+BUNDLED_DEBUGPY_PATH=/home/hamzadurna/.antigravity/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/libs/debugpy
+INFOPATH=/home/linuxbrew/.linuxbrew/share/info:
+MOZ_GMP_PATH=/usr/lib64/mozilla/plugins/gmp-gmpopenh264/system-installed
+DEBUGINFOD_IMA_CERT_PATH=/etc/keys/ima:
+PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/hamzadurna/.local/bin:/home/hamzadurna/bin:/usr/local/bin:/usr/bin:/home/hamzadurna/.antigravity/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/scripts/noConfigScripts

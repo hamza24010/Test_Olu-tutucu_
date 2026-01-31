@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="light" lang="tr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - PDF Upload with Sidebar</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Lexend', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex">
+<aside class="w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark flex flex-col h-screen sticky top-0 shrink-0">
+<div class="p-6 flex flex-col h-full">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary rounded-lg p-2 text-white">
+<span class="material-symbols-outlined block">auto_stories</span>
+</div>
+<div>
+<h1 class="text-lg font-bold leading-none">EduGen</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Öğretmen Paneli</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary text-white font-medium shadow-md shadow-primary/20" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span>PDF Yükle</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">database</span>
+<span>Soru Bankası</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">edit_square</span>
+<span>Test Oluştur</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">archive</span>
+<span>Arşiv</span>
+</a>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Ayarlar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Çıkış Yap</span>
+</a>
+</div>
+</nav>
+</div>
+</aside>
+<main class="flex-1 flex flex-col min-w-0">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 flex items-center justify-between sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">upload_file</span>
+<h2 class="text-lg font-semibold">PDF Yükleme Merkezi</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative w-64 hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full pl-10 pr-4 py-1.5 rounded-lg border-none bg-slate-100 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Dosyalarda ara..." type="text"/>
+</div>
+<button class="relative p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-background-dark"></span>
+</button>
+<div class="flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-6">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold leading-none">Prof. Anderson</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Biyoloji Bölümü</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-slate-200 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuADmp_JhIn7MJBkWHY1qrk-uyI8J-JjpyPMNiCAqNFYqGH6Vl3I3p6b1lembzTLl4bW3iF-QuBFE54PtSIFmnqK06uDzo09B9eKRWkaaj26C3TaSCPafeNhGhs96csF1nlYwR0CHUpL0mFuiUmBs69qWbE7N9vz_0theDPY53bXYwoXrGszi62AN7hxQgWEceIJioUkWI4nYyQjK4V5eCEdDYduh3gixLZ_gK8jobs9suHaXsmpOpcV6LuuQ-EgY1koXROaFXLVVEg')"></div>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-6xl mx-auto w-full">
+<div class="mb-8">
+<h2 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Tekrar Hoşgeldiniz</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Yeni bir test oluşturmaya hazır mısınız? PDF materyallerinizi aşağıya yükleyin.</p>
+</div>
+<div class="bg-white dark:bg-background-dark rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800 p-12 transition-all hover:border-primary/50 group cursor-pointer">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">cloud_upload</span>
+</div>
+<h3 class="text-xl font-bold mb-2">PDF dosyanızı buraya sürükleyin</h3>
+<p class="text-slate-500 dark:text-slate-400 max-w-sm mb-6">
+                        Soru çıkarmak için ders materyallerinizi veya kitaplarınızı yükleyin. (Yalnızca PDF, maks 50MB)
+                    </p>
+<div class="flex gap-3">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors shadow-lg shadow-primary/20">
+                            Dosya Seç
+                        </button>
+<button class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-6 py-2.5 rounded-lg font-bold text-sm transition-colors">
+                            Drive'dan Aktar
+                        </button>
+</div>
+</div>
+</div>
+<div class="mt-12">
+<div class="flex items-center justify-between mb-6 px-1">
+<h3 class="text-xl font-bold">Son Yüklenen Dosyalar</h3>
+<a class="text-primary text-sm font-semibold hover:underline" href="#">Tümünü Gör</a>
+</div>
+<div class="bg-white dark:bg-background-dark rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Dosya Adı</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Tarih</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">Durum</th>
+<th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 text-right">Eylem</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<div>
+<p class="font-medium text-sm">Hucre_Yapisi_Bolum_4.pdf</p>
+<p class="text-xs text-slate-400">4.2 MB • 24 Sayfa</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">24 Eki 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-500">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Hazır
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-sm hover:underline">Test Oluştur</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<div>
+<p class="font-medium text-sm">Genetik_Giris_Ders_3.pdf</p>
+<p class="text-xs text-slate-400">1.8 MB • 12 Sayfa</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">23 Eki 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-500">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                                        İşleniyor
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 cursor-not-allowed font-bold text-sm">Lütfen Bekleyin</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-900/40 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-red-500">picture_as_pdf</span>
+<div>
+<p class="font-medium text-sm">Ekoloji_Vaka_Analizi.pdf</p>
+<p class="text-xs text-slate-400">12.5 MB • 45 Sayfa</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">20 Eki 2023</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-500">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                        Hazır
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary font-bold text-sm hover:underline">Test Oluştur</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+
+</body></html>

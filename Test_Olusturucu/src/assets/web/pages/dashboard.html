@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - TestGen Pro{% endblock %}
+
+{% block content %}
+<header
+    class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-8 flex items-center justify-between sticky top-0 z-10">
+    <h2 class="text-lg font-semibold">Ana Sayfa</h2>
+</header>
+<div class="p-8 max-w-6xl mx-auto w-full">
+    <div class="mb-10">
+        <h2 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white mb-2">Tekrar Hoşgeldiniz 👋</h2>
+        <p class="text-slate-500 text-lg">Yapay zeka asistanınızla test hazırlamak artık çok daha kolay.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div
+            class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-6">
+            <div class="size-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">database</span>
+            </div>
+            <div>
+                <h3 class="text-slate-500 text-sm font-medium">Toplam Soru</h3>
+                <p id="stat-questions" class="text-3xl font-black text-slate-900 dark:text-white">...</p>
+            </div>
+        </div>
+        <div
+            class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center gap-6">
+            <div class="size-14 bg-rose-500/10 text-rose-600 rounded-2xl flex items-center justify-center">
+                <span class="material-symbols-outlined text-3xl">picture_as_pdf</span>
+            </div>
+            <div>
+                <h3 class="text-slate-500 text-sm font-medium">Oluşturulan Testler</h3>
+                <p id="stat-tests" class="text-3xl font-black text-slate-900 dark:text-white">...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div>
+        <h3 class="text-xl font-bold mb-6">Hızlı İşlemler</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div onclick="navigateTo('pdf_upload.html')"
+                class="group p-8 bg-primary text-white rounded-3xl shadow-xl shadow-primary/20 cursor-pointer hover:-translate-y-1 transition-all">
+                <span class="material-symbols-outlined text-4xl mb-4">upload_file</span>
+                <h4 class="text-xl font-bold mb-2">PDF Yükle</h4>
+                <p class="text-primary-100 text-sm">PDF'den otomatik soru çıkart.</p>
+            </div>
+            <div onclick="navigateTo('test_generator.html')"
+                class="group p-8 bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 cursor-pointer hover:-translate-y-1 transition-all">
+                <span class="material-symbols-outlined text-4xl mb-4 text-primary">auto_awesome</span>
+                <h4 class="text-xl font-bold mb-2">Otomatik Test</h4>
+                <p class="text-slate-500 text-sm">Yapay zeka rastgele test kursun.</p>
+            </div>
+            <div onclick="navigateTo('question_bank.html')"
+                class="group p-8 bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 cursor-pointer hover:-translate-y-1 transition-all">
+                <span class="material-symbols-outlined text-4xl mb-4 text-primary">content_copy</span>
+                <h4 class="text-xl font-bold mb-2">Seçerek Hazırla</h4>
+                <p class="text-slate-500 text-sm">Havuzdan soruları kendin seç.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function fetchStats() {
+        try {
+            const resp = await fetch('/api/stats');
+            const data = await resp.json();
+            document.getElementById('stat-questions').innerText = data.total_questions;
+            document.getElementById('stat-tests').innerText = data.total_tests;
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchStats();
+    });
+</script>
+{% endblock %}

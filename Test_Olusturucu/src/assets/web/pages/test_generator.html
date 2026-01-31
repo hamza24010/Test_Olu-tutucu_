@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Test Oluştur - TestGen Pro{% endblock %}
+
+{% block content %}
+<header
+    class="h-16 border-b border-solid border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-10 py-3 sticky top-0 z-40 flex items-center justify-between">
+    <h2 class="text-lg font-bold leading-tight">Otomatik Test Yapılandırması</h2>
+</header>
+<main class="flex flex-col items-center py-8">
+    <div class="layout-content-container flex flex-col max-w-[960px] w-full px-8">
+        <div class="flex flex-wrap justify-between gap-3 py-6">
+            <div class="flex min-w-72 flex-col gap-2">
+                <h1 class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Yeni
+                    Test Oluştur</h1>
+                <p class="text-slate-500 text-base font-normal">Parametreleri belirleyin, yapay zeka sizin yerinize
+                    testi hazırlasın.</p>
+            </div>
+        </div>
+        <div class="flex flex-col gap-8">
+            <section
+                class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3 mb-6">
+                    <span
+                        class="flex items-center justify-center size-8 rounded-full bg-primary text-white font-bold text-sm">1</span>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Ders ve Zorluk</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Ders Seçimi</label>
+                        <select id="subject-select"
+                            class="form-select bg-slate-50 dark:bg-slate-800 border-none rounded-lg focus:ring-2 focus:ring-primary text-base px-4 h-12">
+                            <option value="Matematik">Matematik</option>
+                            <option value="Fizik">Fizik</option>
+                            <option value="Kimya">Kimya</option>
+                            <option value="Biyoloji">Biyoloji</option>
+                            <option value="Türkçe">Türkçe</option>
+                            <option value="Tarih">Tarih</option>
+                            <option value="Coğrafya">Coğrafya</option>
+                            <option value="All">Tüm Dersler (Karma)</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex justify-between items-center">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Zorluk
+                                Seviyesi</label>
+                        </div>
+                        <div class="flex justify-between gap-2 p-1.5 bg-slate-50 dark:bg-slate-800 rounded-xl">
+                            <button onclick="selectDifficulty(1, this)"
+                                class="diff-btn flex-1 py-3 text-sm font-bold text-slate-500 dark:text-slate-400 rounded-lg bg-white dark:bg-slate-700 shadow-sm border border-slate-200 dark:border-transparent transition-colors">1</button>
+                            <button onclick="selectDifficulty(2, this)"
+                                class="diff-btn flex-1 py-3 text-sm font-bold text-slate-500 dark:text-slate-400 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors">2</button>
+                            <button onclick="selectDifficulty(3, this)"
+                                class="diff-btn flex-1 py-3 text-sm font-bold text-white bg-primary rounded-lg shadow-md transition-colors">3</button>
+                            <button onclick="selectDifficulty(4, this)"
+                                class="diff-btn flex-1 py-3 text-sm font-bold text-slate-500 dark:text-slate-400 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors">4</button>
+                            <button onclick="selectDifficulty(5, this)"
+                                class="diff-btn flex-1 py-3 text-sm font-bold text-slate-500 dark:text-slate-400 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors">5</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section
+                class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+                <div class="flex items-center gap-3 mb-6">
+                    <span
+                        class="flex items-center justify-center size-8 rounded-full bg-primary text-white font-bold text-sm">2</span>
+                    <h2 class="text-slate-900 dark:text-white text-xl font-bold">Test Ayarları</h2>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-sm font-semibold text-slate-700 dark:text-slate-200">Soru Sayısı</label>
+                        <div class="flex items-center gap-4">
+                            <input type="range" id="q-count-range" min="5" max="50" value="10" step="5"
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-700"
+                                oninput="document.getElementById('q-count-val').innerText = this.value">
+                            <span id="q-count-val" class="font-bold text-primary text-xl w-8">10</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Not: Yeterli soru bulunamazsa mevcut sorularla tamamlanır.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="flex flex-col gap-4 mt-4">
+                <button id="create-test-btn" onclick="handleAutoGenerate()"
+                    class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined" style="width:auto;height:auto">auto_awesome</span>
+                    Otomatik Test Oluştur
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let selectedDifficulty = "3"; // Default Medium
+
+    function selectDifficulty(level, btn) {
+        selectedDifficulty = String(level);
+        document.querySelectorAll('.diff-btn').forEach(b => {
+            b.classList.remove('bg-primary', 'text-white', 'shadow-md');
+            b.classList.add('text-slate-500', 'bg-white', 'dark:text-slate-400', 'dark:bg-slate-700');
+        });
+        btn.classList.remove('text-slate-500', 'bg-white', 'dark:text-slate-400', 'dark:bg-slate-700');
+        btn.classList.add('bg-primary', 'text-white', 'shadow-md');
+    }
+
+    async function handleAutoGenerate() {
+        const subject = document.getElementById('subject-select').value;
+        const title = prompt("Test Başlığı Giriniz:", subject + " Sınavı");
+        if (!title) return;
+
+        const btn = document.getElementById('create-test-btn');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = `<span class="material-symbols-outlined animate-spin" style="width:auto;height:auto">sync</span> Oluşturuluyor...`;
+
+        try {
+            const response = await fetch('/api/generate-random-test', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: title,
+                    subject: subject,
+                    difficulty: selectedDifficulty,
+                    count: parseInt(document.getElementById('q-count-range').value)
+                })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.detail || 'Generation failed');
+            }
+
+            const result = await response.json();
+            alert(`${result.question_count} soru ile test oluşturuldu!`);
+            window.open(result.url, '_blank');
+
+        } catch (e) {
+            alert("Hata: " + e.message);
+        } finally {
+            btn.innerHTML = originalText;
+        }
+    }
+</script>
+{% endblock %}

@@ -413,6 +413,9 @@ def run_solver(questions_json):
         except Exception as e:
             log_debug(f"Solver Error: {e}")
             print(json.dumps({"error": str(e)}))
+    except Exception as e:
+        log_debug(f"Run Solver Error: {e}")
+        print(json.dumps({"error": str(e)}))
 
 def main():
     # Windows Check: Poppler is required for pdf2image

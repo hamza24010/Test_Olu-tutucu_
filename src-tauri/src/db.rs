@@ -138,7 +138,8 @@ impl Database {
         let mut stmt = self.conn.prepare("SELECT value FROM settings WHERE key = ?1")?;
         let mut rows = stmt.query(params![key])?;
         if let Some(row) = rows.next()? {
-            Ok(Some(row.get(0)?))
+            let val: String = row.get(0)?;
+            Ok(Some(val))
         } else {
             Ok(None)
         }

@@ -127,17 +127,18 @@ async fn list_questions(state: tauri::State<'_, AppState>) -> Result<Vec<Questio
 #[tauri::command]
 async fn export_test_pdf(
     app: tauri::AppHandle, 
+    state: tauri::State<'_, AppState>,
     image_paths: Vec<String>, 
     output_path: String, 
     template_path: Option<String>,
     margins: Option<String>
 ) -> Result<String, String> {
-    let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
-    
     let api_key = {
         let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
         db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default()
     };
+    
+    let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
     // Construct args: ["export", output_path, "--images", img1, img2, ...]
     let mut args = vec!["export".to_string(), output_path];
@@ -293,7 +294,11 @@ async fn generate_answer_key(app: tauri::AppHandle, state: tauri::State<'_, AppS
     let json_str = serde_json::to_string(&solver_data).map_err(|e| e.to_string())?;
 
     // 4. Run Python Solver
-    // 4. Run Python Solver (Sidecar)
+    let api_key = {
+        let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+        db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default()
+    };
+
     let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
     let output = sidecar_command

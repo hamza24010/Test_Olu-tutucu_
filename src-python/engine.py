@@ -56,9 +56,16 @@ def run_analysis(pdf_path):
         # To avoid heavy memory on huge PDFs, we should convert page by page if possible,
         # but convert_from_path usually loads them. Let's stick to convert_from_path for simplicity
         # but we will emit events.
+        # Create local temp dir for stability
+        temp_dir = os.path.join(os.getcwd(), "temp_images")
+        if os.path.exists(temp_dir):
+            import shutil
+            shutil.rmtree(temp_dir)
+        os.makedirs(temp_dir, exist_ok=True)
+
         pages = convert_from_path(pdf_path, dpi=300)
     except Exception as e:
-        print(json.dumps({"type": "error", "message": f"PDF reading failed: {str(e)}"}))
+        print(json.dumps({"type": "error", "message": f"PDF okuma hatası: {str(e)}"}))
         sys.stdout.flush()
         return
 
@@ -70,8 +77,10 @@ def run_analysis(pdf_path):
 
     for page_num, page_image in enumerate(pages):
         try:
-            temp_img_path = f"/tmp/page_{page_num}.jpg"
-            page_image.save(temp_img_path, "JPEG")
+            # Save page image temporarily for AI upload
+            temp_filename = f"page_{page_num}.jpg"
+            temp_path = os.path.abspath(os.path.join(temp_dir, temp_filename))
+            page_image.save(temp_path, "JPEG")
             
             prompt = """
             Görevin: Bu sayfadaki test sorularını ayrıştırmak.

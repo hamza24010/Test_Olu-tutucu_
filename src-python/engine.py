@@ -410,16 +410,24 @@ def run_solver(questions_json):
         try:
             result = json.loads(text)
             print(json.dumps(result)) # Output to stdout
-        except:
-             # Fallback if AI didn't return valid JSON
-             print(json.dumps({"answers": [], "raw_text": text}))
-
-    except Exception as e:
-        log_debug(f"Solver Error: {e}")
-        print(json.dumps({"error": str(e)}))
+         except Exception as e:
+            log_debug(f"Solver Error: {e}")
+            print(json.dumps({"error": str(e)}))
 
 def main():
-    parser = argparse.ArgumentParser()
+    # Windows Check: Poppler is required for pdf2image
+    if sys.platform == "win32":
+        import subprocess
+        try:
+            subprocess.run(["pdftoppm", "-h"], capture_output=True)
+        except FileNotFoundError:
+            print(json.dumps({
+                "type": "error", 
+                "message": "Sistemde 'Poppler' bulunamadı. Lütfen Poppler kütüphanesini kurun ve PATH değişkenine ekleyin veya uygulama dizinine kopyalayın."
+            }))
+            sys.exit(1)
+
+    parser = argparse.ArgumentParser(description="AI Test Engine")
     subparsers = parser.add_subparsers(dest="command")
     
     parser_analyze = subparsers.add_parser("analyze")

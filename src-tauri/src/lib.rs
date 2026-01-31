@@ -32,12 +32,25 @@ async fn analyze_pdf(app: tauri::AppHandle, state: tauri::State<'_, AppState>, p
     
     tauri::async_runtime::spawn(async move {
         while let Some(event) = rx.recv().await {
-            if let CommandEvent::Stdout(line) = event {
-                let line_str = String::from_utf8_lossy(&line);
-                // Emit event to frontend
-                if let Err(e) = app_handle.emit("analysis-event", line_str.to_string()) {
-                    eprintln!("Failed to emit event: {}", e);
+            match event {
+                CommandEvent::Stdout(line) => {
+                    let line_str = String::from_utf8_lossy(&line);
+                    if let Err(e) = app_handle.emit("analysis-event", line_str.to_string()) {
+                        eprintln!("Failed to emit stdout: {}", e);
+                    }
                 }
+                CommandEvent::Stderr(line) => {
+                    let line_str = String::from_utf8_lossy(&line);
+                    let error_json = serde_json::json!({
+                        "status": "error",
+                        "type": "error",
+                        "message": line_str.trim()
+                    }).to_string();
+                    if let Err(e) = app_handle.emit("analysis-event", error_json) {
+                        eprintln!("Failed to emit stderr: {}", e);
+                    }
+                }
+                _ => {}
             }
         }
     });

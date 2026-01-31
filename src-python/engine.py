@@ -56,11 +56,20 @@ def run_analysis(pdf_path):
         # To avoid heavy memory on huge PDFs, we should convert page by page if possible,
         # but convert_from_path usually loads them. Let's stick to convert_from_path for simplicity
         # but we will emit events.
-        # Create local temp dir for stability
-        temp_dir = os.path.join(os.getcwd(), "temp_images")
+        # Create local temp dir in User Data folder to resolve "Access Denied" in Program Files
+        if sys.platform == "win32":
+            base_dir = os.getenv("LOCALAPPDATA")
+        else:
+            base_dir = os.path.expanduser("~")
+            
+        temp_dir = os.path.join(base_dir, "DoclingStitch", "temp_images")
+        
         if os.path.exists(temp_dir):
             import shutil
-            shutil.rmtree(temp_dir)
+            try:
+                shutil.rmtree(temp_dir)
+            except:
+                pass # Ignore if locked
         os.makedirs(temp_dir, exist_ok=True)
 
         pages = convert_from_path(pdf_path, dpi=300)

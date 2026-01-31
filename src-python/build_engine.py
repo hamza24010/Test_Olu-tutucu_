@@ -44,7 +44,8 @@ def build():
     # Build command
     # --onefile: Create a single executable
     # --name: Executable name
-    # --hidden-import: Explicitly include hidden modules (often needed for google-generativeai, reportlab, etc.)
+    # --hidden-import: Explicitly include hidden modules
+    
     cmd = [
         sys.executable, "-m", "PyInstaller",
         "--clean",
@@ -57,6 +58,14 @@ def build():
         "--hidden-import", "PIL", # Pillow
         SCRIPT_NAME
     ]
+
+    # Include .env if exists
+    if os.path.exists(".env"):
+        sep = ";" if platform.system().lower() == "windows" else ":"
+        cmd.extend(["--add-data", f".env{sep}."])
+        print("Including .env in binary.")
+    else:
+        print("Warning: .env not found. Binary will not have embedded API key.")
     
     subprocess.check_call(cmd)
     

@@ -12,10 +12,19 @@ from reportlab.lib.utils import ImageReader
 from io import BytesIO
 
 # Load Environment Variables
-# Try loading from .env file in the same directory as the script
-script_dir = os.path.dirname(os.path.abspath(__file__))
+# Handle PyInstaller temporary path
+if hasattr(sys, '_MEIPASS'):
+    script_dir = sys._MEIPASS
+else:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
 env_path = os.path.join(script_dir, '.env')
 load_dotenv(env_path)
+
+# Fallback: Check local dir if not found in bundle (dev mode priority)
+if not os.getenv("GEMINI_API_KEY"):
+     local_env = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
+     load_dotenv(local_env)
 
 api_key = os.getenv("GEMINI_API_KEY")
 if api_key:

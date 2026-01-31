@@ -24,13 +24,13 @@ dist-ssr
 *.sw?
 
 # Rust
-target/
-src-tauri/target/
+# target/  <-- Un-ignored
+# src-tauri/target/ <-- Un-ignored
 **/*.rs.bk
 
 # Tauri
 src-tauri/gen/
-src-tauri/binaries/
+# src-tauri/binaries/ <-- Un-ignored
 
 # Python
 __pycache__/
@@ -40,8 +40,8 @@ __pycache__/
 venv/
 ENV/
 env/
-src-python/build/
-src-python/dist/
+# src-python/build/ <-- Un-ignored
+# src-python/dist/ <-- Un-ignored
 *.spec
 
 # Environment Variables

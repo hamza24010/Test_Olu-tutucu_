@@ -410,7 +410,7 @@ def run_solver(questions_json):
         try:
             result = json.loads(text)
             print(json.dumps(result)) # Output to stdout
-         except Exception as e:
+        except Exception as e:
             log_debug(f"Solver Error: {e}")
             print(json.dumps({"error": str(e)}))
 

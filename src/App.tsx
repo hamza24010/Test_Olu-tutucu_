@@ -236,6 +236,13 @@ function App() {
       try {
         const data = JSON.parse(event.payload);
 
+        // Catch global errors from engine.py
+        if (data.status === 'error' || data.type === 'error') {
+          setError(data.message || data.error || "Beklenmeyen bir hata oluştu.");
+          setLoading(false);
+          return;
+        }
+
         if (data.type === 'start') {
           setAnalysisProgress({ current: 0, total: data.total });
           setLoadingText("Analiz Başlıyor...");
@@ -248,10 +255,11 @@ function App() {
           setLoading(false);
           if (activeView !== 'analyze') setActiveView('analyze');
         } else if (data.type === 'error') {
-          setError("Hata: " + data.message);
+          setError(data.message || "Bilinmeyen bir hata oluştu.");
+          setLoading(false);
         }
       } catch (e) {
-        console.error("Event parse error:", e);
+        console.error("AI Log:", event.payload);
       }
     });
 

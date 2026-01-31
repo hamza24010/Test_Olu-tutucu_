@@ -23,24 +23,42 @@ export default function UploadView({
     if (loading) {
         return (
             <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="h-full flex flex-col items-center justify-center">
-                {progress && progress.total > 0 ? (
-                    <div className="w-64">
-                        <div className="flex justify-between text-xs font-bold text-slate-500 mb-2">
-                            <span>Sayfa {progress.current} / {progress.total}</span>
-                            <span>{Math.round((progress.current / progress.total) * 100)}%</span>
+                {error ? (
+                    <div className="flex flex-col items-center max-w-md text-center p-8 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
+                        <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-4">
+                            <RefreshCw size={32} />
                         </div>
-                        <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                            <div
-                                className="h-full bg-primary transition-all duration-300"
-                                style={{ width: `${(progress.current / progress.total) * 100}%` }}
-                            ></div>
-                        </div>
-                        <p className="text-center text-slate-500 text-sm mt-4 font-medium animate-pulse">Sorular Ayrıştırılıyor...</p>
+                        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">Hata Oluştu</h3>
+                        <p className="text-red-500 text-sm mb-6 leading-relaxed bg-red-50 dark:bg-red-900/20 p-4 rounded-xl border border-red-100 dark:border-red-900/30">
+                            {error}
+                        </p>
+                        <button onClick={onReset} className="bg-primary text-white px-8 py-3 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                            Tekrar Dene
+                        </button>
                     </div>
                 ) : (
                     <>
-                        <Loader2 className="animate-spin text-primary mb-4" size={48} />
-                        <h3 className="text-xl font-bold text-slate-800">{loadingText}</h3>
+                        {progress && progress.total > 0 ? (
+                            <div className="w-64">
+                                <div className="flex justify-between text-xs font-bold text-slate-500 mb-2">
+                                    <span>Sayfa {progress.current} / {progress.total}</span>
+                                    <span>{Math.round((progress.current / progress.total) * 100)}%</span>
+                                </div>
+                                <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+                                    <div
+                                        className="h-full bg-primary transition-all duration-300"
+                                        style={{ width: `${(progress.current / progress.total) * 100}%` }}
+                                    ></div>
+                                </div>
+                                <p className="text-center text-slate-500 text-sm mt-4 font-medium animate-pulse">Sorular Ayrıştırılıyor...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <Loader2 className="animate-spin text-primary mb-4" size={48} />
+                                <h3 className="text-xl font-bold text-slate-800 dark:text-white">{loadingText}</h3>
+                                <p className="text-slate-400 text-sm mt-2">Bu işlem belgenin büyüklüğüne göre vakit alabilir.</p>
+                            </>
+                        )}
                     </>
                 )}
             </motion.div>

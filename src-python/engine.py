@@ -66,7 +66,8 @@ def analyze_page_with_yolo(image_path, page_num, global_counter):
 
     try:
         model = YOLO(model_path)
-        results = model(image_path)
+        # Reduce duplicates with lower IoU threshold and higher Confidence
+        results = model(image_path, iou=0.5, conf=0.4, agnostic_nms=True)
 
         page_questions = []
 
@@ -365,7 +366,9 @@ def run_template_analysis(pdf_path):
             print(json.dumps({"error": "Empty PDF"}))
             return
 
-        temp_path = "/tmp/template_preview.jpg"
+        temp_dir = os.path.join(APP_DATA_DIR, "temp_images")
+        os.makedirs(temp_dir, exist_ok=True)
+        temp_path = os.path.join(temp_dir, "template_preview.jpg")
         pages[0].save(temp_path, "JPEG")
 
         # Analyze

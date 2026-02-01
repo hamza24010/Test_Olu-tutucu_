@@ -1,0 +1,7 @@
+google-generativeai
+reportlab
+pdf2image
+pypdf
+python-dotenv
+pillow
+ultralytics

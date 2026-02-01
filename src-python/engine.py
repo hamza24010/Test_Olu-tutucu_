@@ -11,12 +11,20 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from io import BytesIO
 
+# YOLO Import
+try:
+    from ultralytics import YOLO
+except ImportError:
+    YOLO = None
+
 # Load Environment Variables
 # Handle PyInstaller temporary path
 if hasattr(sys, '_MEIPASS'):
     script_dir = sys._MEIPASS
+    model_path = os.path.join(script_dir, "models", "best.pt")
 else:
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_path = os.path.join(script_dir, "models", "best.pt")
 
 env_path = os.path.join(script_dir, '.env')
 load_dotenv(env_path)
@@ -43,16 +51,32 @@ def log_debug(msg):
     # Optional: Log to a file if needed
     pass
 
-def run_analysis(pdf_path):
-    if not api_key:
+def run_analysis(pdf_path, engine_type="gemini"):
+    if engine_type == "gemini" and not api_key:
         print(json.dumps({"type": "error", "message": "API Key missing"}))
         sys.stdout.flush()
         return
 
+    # YOLO CHECK
+    if engine_type == "yolo" and YOLO is None:
+        print(json.dumps({"type": "error", "message": "YOLO (ultralytics) kütüphanesi yüklü değil."}))
+        sys.stdout.flush()
+        return
+
     try:
-        model = genai.GenerativeModel('gemini-2.5-pro')
-    except:
-        model = genai.GenerativeModel('gemini-1.5-pro')
+        model = None
+        if engine_type == "gemini":
+            try:
+                model = genai.GenerativeModel('gemini-2.5-pro')
+            except:
+                model = genai.GenerativeModel('gemini-1.5-pro')
+        elif engine_type == "yolo":
+             if not os.path.exists(model_path):
+                 print(json.dumps({"type": "error", "message": f"Model dosyası bulunamadı: {model_path}"}))
+                 return
+             # Lazy load inside loop or here? Here is fine
+             # Actually, analyze_page_with_yolo loads it, but we can pass model path
+             pass
     
     try:
         # Get total info first (lightweight)
@@ -90,18 +114,22 @@ def run_analysis(pdf_path):
 
     for page_num, page_image in enumerate(pages):
         try:
-            # Save page image temporarily for AI upload
+            # Save page image temporarily
             temp_filename = f"page_{page_num}.jpg"
             temp_path = os.path.abspath(os.path.join(temp_dir, temp_filename))
             page_image.save(temp_path, "JPEG")
             
-            prompt = """
-            Görevin: Bu sayfadaki test sorularını ayrıştırmak.
-            
-            KURALLAR:
-            1. Her soruyu (soru numarası, metni, şıkları ve varsa görseli) içine alan BİR DİKDÖRTGEN (Bounding Box) belirle.
-            2. Soru numarasını (Örn: "1.", "24.") mutlaka yakala.
-            3. Sorunun zorluk seviyesini (1-5 arası) ve konusunu tahmin et.
+            page_questions = []
+
+            if engine_type == "gemini":
+                # --- GEMINI LOGIC ---
+                prompt = """
+                Görevin: Bu sayfadaki test sorularını ayrıştırmak.
+                
+                KURALLAR:
+                1. Her soruyu (soru numarası, metni, şıkları ve varsa görseli) içine alan BİR DİKDÖRTGEN (Bounding Box) belirle.
+                2. Soru numarasını (Örn: "1.", "24.") mutlaka yakala.
+                3. Sorunun zorluk seviyesini (1-5 arası) ve konusunu tahmin et.
             
             ÇIKTI FORMATI (JSON):
             {
@@ -118,51 +146,55 @@ def run_analysis(pdf_path):
             NOT: bbox koordinatları 0 ile 1000 arasında normalize edilmiş olmalıdır.
             """
             
-            sample_file = genai.upload_file(path=temp_path, display_name=f"Page {page_num}")
-            response = model.generate_content([prompt, sample_file])
-            
-            # Parse JSON
-            text = response.text.replace("```json", "").replace("```", "").strip()
-            data = json.loads(text)
-            
-            width, height = page_image.size
-            page_questions = []
-            
-            for q in data.get("questions", []):
-                # Cut Image
-                bbox = q["bbox"]
-                ymin, xmin, ymax, xmax = bbox
+                sample_file = genai.upload_file(path=temp_path, display_name=f"Page {page_num}")
+                response = model.generate_content([prompt, sample_file])
                 
-                left = xmin * width / 1000
-                top = ymin * height / 1000
-                right = xmax * width / 1000
-                bottom = ymax * height / 1000
+                # Parse JSON
+                text = response.text.replace("```json", "").replace("```", "").strip()
+                data = json.loads(text)
                 
-                # Crop
-                question_img = page_image.crop((left, top, right, bottom))
+                width, height = page_image.size
                 
-                save_dir = os.path.join(APP_DATA_DIR, "extracted_questions")
-                os.makedirs(save_dir, exist_ok=True)
-                save_path = os.path.abspath(os.path.join(save_dir, f"q_{global_counter}.jpg"))
-                question_img.save(save_path, "JPEG")
-                
-                # Base64
-                buffered = BytesIO()
-                question_img.save(buffered, format="JPEG")
-                img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
-                base64_data = f"data:image/jpeg;base64,{img_str}"
-                
-                page_questions.append({
-                    "id": f"q_{global_counter}",
-                    "text": q.get("text_snippet", "") + "...",
-                    "image": base64_data,
-                    "image_path": str(save_path),
-                    "page": page_num + 1,
-                    "bbox": [left, top, right, bottom],
-                    "difficulty": q.get("difficulty", 3),
-                    "topic": q.get("topic", "Genel")
-                })
-                global_counter += 1
+                for q in data.get("questions", []):
+                    # Cut Image
+                    bbox = q["bbox"]
+                    ymin, xmin, ymax, xmax = bbox
+                    
+                    left = xmin * width / 1000
+                    top = ymin * height / 1000
+                    right = xmax * width / 1000
+                    bottom = ymax * height / 1000
+                    
+                    # Crop
+                    question_img = page_image.crop((left, top, right, bottom))
+                    
+                    save_dir = os.path.join(APP_DATA_DIR, "extracted_questions")
+                    os.makedirs(save_dir, exist_ok=True)
+                    save_path = os.path.abspath(os.path.join(save_dir, f"q_{global_counter}.jpg"))
+                    question_img.save(save_path, "JPEG")
+                    
+                    # Base64
+                    buffered = BytesIO()
+                    question_img.save(buffered, format="JPEG")
+                    img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+                    base64_data = f"data:image/jpeg;base64,{img_str}"
+                    
+                    page_questions.append({
+                        "id": f"q_{global_counter}",
+                        "text": q.get("text_snippet", "") + "...",
+                        "image": base64_data,
+                        "image_path": str(save_path),
+                        "page": page_num + 1,
+                        "bbox": [left, top, right, bottom],
+                        "difficulty": q.get("difficulty", 3),
+                        "topic": q.get("topic", "Genel")
+                    })
+                    global_counter += 1
+
+            elif engine_type == "yolo":
+                # --- YOLO LOGIC ---
+                yolo_questions, global_counter = analyze_page_with_yolo(temp_path, page_num + 1, global_counter)
+                page_questions.extend(yolo_questions)
             
             # EMIT PROGRESS EVENT
             event = {
@@ -457,6 +489,7 @@ def main():
     
     parser_analyze = subparsers.add_parser("analyze")
     parser_analyze.add_argument("pdf_path")
+    parser_analyze.add_argument("--engine", default="gemini", choices=["gemini", "yolo"], help="Extraction engine")
     
     parser_export = subparsers.add_parser("export")
     parser_export.add_argument("output_path")
@@ -472,13 +505,14 @@ def main():
     parser_solve.add_argument("--questions", required=True, help="JSON string of questions list")
 
     if len(sys.argv) > 1 and sys.argv[1] not in ["analyze", "export", "analyze-template", "solve"]:
+         # Legacy support or direct file call
          run_analysis(sys.argv[1])
          return
 
     args = parser.parse_args()
     
     if args.command == "analyze":
-        run_analysis(args.pdf_path)
+        run_analysis(args.pdf_path, engine_type=args.engine)
     elif args.command == "analyze-template":
         run_template_analysis(args.pdf_path)
     elif args.command == "export":

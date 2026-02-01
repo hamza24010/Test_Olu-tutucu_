@@ -5,6 +5,7 @@ import { Settings, Key, Save, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function SettingsView() {
     const [apiKey, setApiKey] = useState("");
+    const [aiEngine, setAiEngine] = useState("gemini");
     const [saving, setSaving] = useState(false);
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -14,8 +15,11 @@ export default function SettingsView() {
 
     const loadSettings = async () => {
         try {
-            const val = await invoke<string | null>('get_setting', { key: 'gemini_api_key' });
-            if (val) setApiKey(val);
+            const key = await invoke<string | null>('get_setting', { key: 'gemini_api_key' });
+            if (key) setApiKey(key);
+
+            const engine = await invoke<string | null>('get_setting', { key: 'ai_engine' });
+            if (engine) setAiEngine(engine);
         } catch (e) { console.error(e); }
     };
 
@@ -24,6 +28,7 @@ export default function SettingsView() {
         setStatus('idle');
         try {
             await invoke('save_setting', { key: 'gemini_api_key', value: apiKey });
+            await invoke('save_setting', { key: 'ai_engine', value: aiEngine });
             setStatus('success');
             setTimeout(() => setStatus('idle'), 3000);
         } catch (e) {
@@ -60,10 +65,40 @@ export default function SettingsView() {
 
                 <div className="p-6 space-y-6">
                     <div>
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+                            Varsayılan Motor
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <button
+                                onClick={() => setAiEngine('gemini')}
+                                className={`p-4 rounded-xl border-2 text-left transition-all relative ${aiEngine === 'gemini'
+                                    ? 'border-primary bg-primary/5 shadow-md'
+                                    : 'border-slate-200 dark:border-slate-700 hover:border-primary/50'
+                                    }`}
+                            >
+                                <div className="font-bold text-slate-800 dark:text-white mb-1">Google Gemini 2.5</div>
+                                <div className="text-xs text-slate-500">Tam OCR + Anlamlandırma. İnternet gerekir.</div>
+                                {aiEngine === 'gemini' && <div className="absolute top-3 right-3 text-primary"><CheckCircle2 size={18} /></div>}
+                            </button>
+
+                            <button
+                                onClick={() => setAiEngine('yolo')}
+                                className={`p-4 rounded-xl border-2 text-left transition-all relative ${aiEngine === 'yolo'
+                                    ? 'border-primary bg-primary/5 shadow-md'
+                                    : 'border-slate-200 dark:border-slate-700 hover:border-primary/50'
+                                    }`}
+                            >
+                                <div className="font-bold text-slate-800 dark:text-white mb-1">YOLOv8 (Yerel)</div>
+                                <div className="text-xs text-slate-500">Sadece Görsel Kesme. Hızlı & Çevrimdışı.</div>
+                                {aiEngine === 'yolo' && <div className="absolute top-3 right-3 text-primary"><CheckCircle2 size={18} /></div>}
+                            </button>
+                        </div>
+
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                             Gemini API Key
                         </label>
-                        <div className="relative">
+                        <div className={`relative transition-opacity ${aiEngine === 'yolo' ? 'opacity-50 pointer-events-none' : ''}`}>
+
                             <input
                                 type="password"
                                 value={apiKey}

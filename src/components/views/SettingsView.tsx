@@ -88,7 +88,7 @@ export default function SettingsView() {
                                     : 'border-slate-200 dark:border-slate-700 hover:border-primary/50'
                                     }`}
                             >
-                                <div className="font-bold text-slate-800 dark:text-white mb-1">YOLOv8 (Yerel)</div>
+                                <div className="font-bold text-slate-800 dark:text-white mb-1">YOLOv26 (Yerel - Özel Eğitim)</div>
                                 <div className="text-xs text-slate-500">Sadece Görsel Kesme. Hızlı & Çevrimdışı.</div>
                                 {aiEngine === 'yolo' && <div className="absolute top-3 right-3 text-primary"><CheckCircle2 size={18} /></div>}
                             </button>

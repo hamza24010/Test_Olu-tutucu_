@@ -24,6 +24,8 @@ async fn analyze_pdf(app: tauri::AppHandle, state: tauri::State<'_, AppState>, p
 
     let sidecar_command = app.shell().sidecar("engine").map_err(|e| e.to_string())?;
     
+    println!("Starting sidecar with path: {}, engine: {}", path, engine_type);
+    
     let (mut rx, _) = sidecar_command
         .args(&["analyze", &path, "--engine", &engine_type])
         .env("GEMINI_API_KEY", &api_key)

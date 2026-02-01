@@ -1,5 +1,6 @@
-import os
 import sys
+print("DEBUG: Engine script started...", file=sys.stderr)
+sys.stderr.flush()
 import json
 import base64
 import argparse
@@ -11,11 +12,11 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 from io import BytesIO
 
-# YOLO Import
-try:
-    from ultralytics import YOLO
-except ImportError:
-    YOLO = None
+# YOLO Import handled lazily
+# try:
+#     from ultralytics import YOLO
+# except ImportError:
+#     YOLO = None
 
 # Load Environment Variables
 # Handle PyInstaller temporary path
@@ -51,6 +52,67 @@ def log_debug(msg):
     # Optional: Log to a file if needed
     pass
 
+def analyze_page_with_yolo(image_path, page_num, global_counter):
+    try:
+        from ultralytics import YOLO
+    except ImportError:
+        log_debug("YOLO not installed")
+        return [], global_counter
+
+    try:
+        model = YOLO(model_path)
+        results = model(image_path)
+        
+        page_questions = []
+        
+        # Load original image for cropping
+        from PIL import Image as PILImage
+        img = PILImage.open(image_path)
+        width, height = img.size
+
+        for result in results:
+            boxes = result.boxes
+            for box in boxes:
+                # box.xyxy[0] -> [x1, y1, x2, y2]
+                x1, y1, x2, y2 = box.xyxy[0].tolist()
+                
+                # Check confidence (optional threshold)
+                if box.conf[0] < 0.3: continue
+                
+                # Crop
+                question_img = img.crop((x1, y1, x2, y2))
+                
+                heading = f"q_{global_counter}"
+                
+                save_dir = os.path.join(APP_DATA_DIR, "extracted_questions")
+                os.makedirs(save_dir, exist_ok=True)
+                save_path = os.path.abspath(os.path.join(save_dir, f"{heading}.jpg"))
+                question_img.save(save_path, "JPEG")
+                
+                # Base64 Preview
+                buffered = BytesIO()
+                question_img.save(buffered, format="JPEG")
+                img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+                base64_data = f"data:image/jpeg;base64,{img_str}"
+                
+                page_questions.append({
+                    "id": heading,
+                    "text": "Görsel Soru (OCR Yok)", # No text extraction in YOLO mode
+                    "image": base64_data,
+                    "image_path": str(save_path),
+                    "page": page_num,
+                    "bbox": [y1, x1, y2, x2],
+                    "difficulty": 3,
+                    "topic": "Genel"
+                })
+                global_counter += 1
+                
+        return page_questions, global_counter
+        
+    except Exception as e:
+        log_debug(f"YOLO Error: {e}")
+        return [], global_counter
+
 def run_analysis(pdf_path, engine_type="gemini"):
     if engine_type == "gemini" and not api_key:
         print(json.dumps({"type": "error", "message": "API Key missing"}))
@@ -58,10 +120,13 @@ def run_analysis(pdf_path, engine_type="gemini"):
         return
 
     # YOLO CHECK
-    if engine_type == "yolo" and YOLO is None:
-        print(json.dumps({"type": "error", "message": "YOLO (ultralytics) kütüphanesi yüklü değil."}))
-        sys.stdout.flush()
-        return
+    if engine_type == "yolo":
+        try:
+             import ultralytics
+        except ImportError:
+            print(json.dumps({"type": "error", "message": "YOLO (ultralytics) kütüphanesi yüklü değil."}))
+            sys.stdout.flush()
+            return
 
     try:
         model = None

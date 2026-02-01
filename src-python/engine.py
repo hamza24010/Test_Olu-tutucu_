@@ -30,6 +30,15 @@ api_key = os.getenv("GEMINI_API_KEY")
 if api_key:
     genai.configure(api_key=api_key)
 
+# --- GLOBAL PATH SETUPFor Windows/Linux ---
+if sys.platform == "win32":
+    APP_DATA_DIR = os.path.join(os.getenv("LOCALAPPDATA"), "DoclingStitch")
+else:
+    APP_DATA_DIR = os.path.join(os.path.expanduser("~"), "DoclingStitch")
+
+os.makedirs(APP_DATA_DIR, exist_ok=True)
+
+
 def log_debug(msg):
     # Optional: Log to a file if needed
     pass
@@ -57,12 +66,7 @@ def run_analysis(pdf_path):
         # but convert_from_path usually loads them. Let's stick to convert_from_path for simplicity
         # but we will emit events.
         # Create local temp dir in User Data folder to resolve "Access Denied" in Program Files
-        if sys.platform == "win32":
-            base_dir = os.getenv("LOCALAPPDATA")
-        else:
-            base_dir = os.path.expanduser("~")
-            
-        temp_dir = os.path.join(base_dir, "DoclingStitch", "temp_images")
+        temp_dir = os.path.join(APP_DATA_DIR, "temp_images")
         
         if os.path.exists(temp_dir):
             import shutil
@@ -137,9 +141,9 @@ def run_analysis(pdf_path):
                 # Crop
                 question_img = page_image.crop((left, top, right, bottom))
                 
-                save_dir = os.path.join(script_dir, "extracted_questions")
+                save_dir = os.path.join(APP_DATA_DIR, "extracted_questions")
                 os.makedirs(save_dir, exist_ok=True)
-                save_path = os.path.join(save_dir, f"q_{global_counter}.jpg")
+                save_path = os.path.abspath(os.path.join(save_dir, f"q_{global_counter}.jpg"))
                 question_img.save(save_path, "JPEG")
                 
                 # Base64

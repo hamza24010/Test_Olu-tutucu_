@@ -17,8 +17,8 @@ struct AppState {
 async fn analyze_pdf(app: tauri::AppHandle, state: tauri::State<'_, AppState>, path: String) -> Result<(), String> {
     let (api_key, engine_type) = {
         let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
-        let key = db.get_setting::<String>("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default();
-        let engine = db.get_setting::<String>("ai_engine").map_err(|e| e.to_string())?.unwrap_or("gemini".to_string());
+        let key = db.get_setting("gemini_api_key").map_err(|e| e.to_string())?.unwrap_or_default();
+        let engine = db.get_setting("ai_engine").map_err(|e| e.to_string())?.unwrap_or("gemini".to_string());
         (key, engine)
     };
 

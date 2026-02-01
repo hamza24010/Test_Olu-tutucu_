@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import { ask, message } from "@tauri-apps/plugin-dialog";
 import { motion } from "framer-motion";
-import { Settings, Key, Save, CheckCircle2, AlertCircle } from "lucide-react";
+import { Settings, Key, Save, CheckCircle2, AlertCircle, Trash2 } from "lucide-react";
 
 export default function SettingsView() {
     const [apiKey, setApiKey] = useState("");
@@ -143,6 +144,44 @@ export default function SettingsView() {
                             Değişiklikleri Kaydet
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div className="mt-8 bg-red-50 dark:bg-red-900/10 rounded-3xl border border-red-200 dark:border-red-900/30 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-red-100 dark:border-red-900/30">
+                    <h3 className="font-bold flex items-center gap-2 text-red-700 dark:text-red-400">
+                        <AlertCircle size={18} />
+                        Tehlikeli Bölge
+                    </h3>
+                </div>
+                <div className="p-6 flex items-center justify-between">
+                    <div>
+                        <h4 className="font-bold text-slate-800 dark:text-white text-sm">Tüm Soru Bankasını Temizle</h4>
+                        <p className="text-xs text-slate-500 mt-1 max-w-sm">
+                            Veritabanındaki tüm sorular kalıcı olarak silinecektir. Bu işlem geri alınamaz.
+                        </p>
+                    </div>
+                    <button
+                        onClick={async () => {
+                            const confirmed = await ask('Tüm soru bankasını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', {
+                                title: 'Dikkat!',
+                                kind: 'warning',
+                            });
+
+                            if (confirmed) {
+                                try {
+                                    await invoke('clear_database');
+                                    await message('Veritabanı başarıyla temizlendi.', { title: 'Başarılı', kind: 'info' });
+                                } catch (error) {
+                                    await message(`Hata: ${error}`, { title: 'Hata', kind: 'error' });
+                                }
+                            }
+                        }}
+                        className="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white border border-red-200 hover:border-red-600 px-4 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2"
+                    >
+                        <Trash2 size={16} />
+                        Tümünü Sil
+                    </button>
                 </div>
             </div>
 

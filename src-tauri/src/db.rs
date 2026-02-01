@@ -501,4 +501,10 @@ impl Database {
         self.conn.execute(&query, &*params)?;
         Ok(())
     }
+
+    pub fn delete_all_questions(&self) -> Result<()> {
+        self.conn.execute("DELETE FROM questions", [])?;
+        // Optional: Reset auto-increment but IDK if needed. usually not essential.
+        Ok(())
+    }
 }

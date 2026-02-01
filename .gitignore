@@ -30,19 +30,12 @@ dist-ssr
 
 # Tauri
 src-tauri/gen/
-# src-tauri/binaries/ <-- Un-ignored
+src-tauri/binaries/
 
 # Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-ENV/
-env/
-# src-python/build/ <-- Un-ignored
-# src-python/dist/ <-- Un-ignored
-*.spec
+src-python/build/
+src-python/dist/
+src-python/.venv/
 
 # Environment Variables
 .env
@@ -50,3 +43,6 @@ env/
 
 # OS
 Thumbs.db
+
+# Old Project
+Test_Olusturucu/

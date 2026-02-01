@@ -56,6 +56,8 @@ def build():
         "--hidden-import", "pypdf",
         "--hidden-import", "pdf2image",
         "--hidden-import", "PIL", # Pillow
+        "--hidden-import", "ultralytics",
+        "--add-data", f"models/best.pt{';' if platform.system().lower() == 'windows' else ':'}models",
         SCRIPT_NAME
     ]
 

@@ -202,6 +202,12 @@ async fn delete_questions(state: tauri::State<'_, AppState>, ids: Vec<i32>) -> R
     db.delete_questions(ids).map_err(|e| e.to_string())
 }
 
+#[tauri::command]
+async fn clear_database(state: tauri::State<'_, AppState>) -> Result<(), String> {
+    let db = state.db.lock().map_err(|_| "Failed to lock DB".to_string())?;
+    db.delete_all_questions().map_err(|e| e.to_string())
+}
+
 // --- TEMPLATE CRUD ---
 #[tauri::command]
 async fn save_template(state: tauri::State<'_, AppState>, name: String, path: String, preview: String, margins: String) -> Result<i64, String> {
@@ -429,6 +435,7 @@ pub fn run() {
             delete_question,
             get_questions_by_ids,
             delete_questions,
+            clear_database,
             export_test_pdf,
             analyze_template,
             save_template,
